@@ -1,0 +1,29 @@
+server:
+  port: '8082'
+
+spring:
+  profiles:
+    active: dev
+app:
+  secret:
+    key: L3+98VbTpC0EZXaULs5x4zAaIqB7VhKc4AQmJfF6d+E=
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/attendance
+    password: dexter
+  application:
+    name: ioc
+  mvc:
+    problem-details:
+      enabled: 'true'
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
