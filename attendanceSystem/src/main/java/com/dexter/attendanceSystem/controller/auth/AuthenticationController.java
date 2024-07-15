@@ -1,5 +1,6 @@
 package com.dexter.attendanceSystem.controller.auth;
 
+import com.dexter.attendanceSystem.model.Request.LoginRequest;
 import com.dexter.attendanceSystem.model.Request.SignupRequest;
 import com.dexter.attendanceSystem.service.UnathenticatedService;
 
@@ -34,5 +35,17 @@ public class AuthenticationController {
                 .path(httpServletRequest.getRequestURI())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse>loginUser(@RequestBody @Valid LoginRequest loginRequest, HttpServletRequest httpServletRequest){
+        ApiResponse apiResponse = ApiResponse.builder()
+                .data(unauthenticatedService.loginUser(loginRequest))
+                .path(httpServletRequest.getRequestURI())
+                .status(HttpStatus.OK.value())
+                .isSuccessful(true)
+                .build();
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 }

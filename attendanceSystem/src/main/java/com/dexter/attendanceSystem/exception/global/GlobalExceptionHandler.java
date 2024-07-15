@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -30,6 +31,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatusCode status,
                                                                   WebRequest request) {
+        HttpServletRequest servletRequest = ((ServletWebRequest) request).getRequest();
+        String requestUri = servletRequest.getRequestURI();
         BindingResult bindingResult = ex.getBindingResult();
         List<String> errorMessages = new ArrayList<>();
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -38,7 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         System.out.println("Validation errors: " + errorMessages);
         ApiResponse errorResponse = ApiResponse.builder()
                 .isSuccessful(false)
-                .path(request.getContextPath())
+                .path(requestUri)
                 .status(HttpStatus.BAD_REQUEST.value())
                 .data(StringUtils.collectionToCommaDelimitedString(errorMessages))
                 .build();
@@ -51,13 +54,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
    @ResponseBody
    @ExceptionHandler(StudentException.class)
     public ResponseEntity<ApiResponse> handleStudentException(StudentException exception,
-                                                              WebRequest request){
+                                                              HttpServletRequest request){
         MessageResponse messageResponse = MessageResponse.builder().message(exception.getMessage()).build();
         ApiResponse response = ApiResponse.builder()
                 .isSuccessful(false)
                 .data(messageResponse)
                 .status(HttpStatus.BAD_REQUEST.value())
-                .path(request.getContextPath())
+                .path(request.getRequestURI())
                 .build();
         return  new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

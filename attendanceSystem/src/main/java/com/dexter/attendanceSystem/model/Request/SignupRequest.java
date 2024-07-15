@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class SignupRequest {
     @NotBlank(message = "Registration  field is required")
-    private String student_id;
+    private String studentId;
 
 
     @NotBlank(message = "Password is required")
