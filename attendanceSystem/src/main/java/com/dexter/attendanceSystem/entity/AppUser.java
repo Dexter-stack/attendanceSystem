@@ -23,7 +23,7 @@ public class AppUser {
 
     @Column(length = 5,nullable = false)
     @NotBlank(message = "Registration  field is required")
-    private String student_id;
+    private String studentId;
 
     @Column(length = 100)
     @NotBlank(message = "Password is required")

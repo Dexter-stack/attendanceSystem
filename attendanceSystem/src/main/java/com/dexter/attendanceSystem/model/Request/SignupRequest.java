@@ -7,16 +7,17 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class SignupRequest {
-    @NotNull(message = "Registration  field is required")
+    @NotBlank(message = "Registration  field is required")
     private String student_id;
 
 
-    @NotNull(message = "Password is required")
+    @NotBlank(message = "Password is required")
     private String password;
 
 
