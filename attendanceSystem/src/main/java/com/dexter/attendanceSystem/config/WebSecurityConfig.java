@@ -46,6 +46,7 @@ public class WebSecurityConfig {
                                         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
+
                             }
 
                         }

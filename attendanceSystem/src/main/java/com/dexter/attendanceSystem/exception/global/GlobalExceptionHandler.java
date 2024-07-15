@@ -1,5 +1,6 @@
 package com.dexter.attendanceSystem.exception.global;
 
+import com.dexter.attendanceSystem.exception.CourseException;
 import com.dexter.attendanceSystem.exception.StudentException;
 import com.dexter.attendanceSystem.model.Response.MessageResponse;
 import com.dexter.attendanceSystem.utils.ApiResponse;
@@ -54,6 +55,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
    @ResponseBody
    @ExceptionHandler(StudentException.class)
     public ResponseEntity<ApiResponse> handleStudentException(StudentException exception,
+                                                              HttpServletRequest request){
+        MessageResponse messageResponse = MessageResponse.builder().message(exception.getMessage()).build();
+        ApiResponse response = ApiResponse.builder()
+                .isSuccessful(false)
+                .data(messageResponse)
+                .status(HttpStatus.BAD_REQUEST.value())
+                .path(request.getRequestURI())
+                .build();
+        return  new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler(CourseException.class)
+    public ResponseEntity<ApiResponse> handleStudentException(CourseException exception,
                                                               HttpServletRequest request){
         MessageResponse messageResponse = MessageResponse.builder().message(exception.getMessage()).build();
         ApiResponse response = ApiResponse.builder()

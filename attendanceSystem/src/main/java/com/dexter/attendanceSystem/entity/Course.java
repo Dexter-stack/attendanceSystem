@@ -1,6 +1,7 @@
 package com.dexter.attendanceSystem.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ public class Course {
     @Column(nullable = false)
     @NotBlank(message = "Course field is required")
     private String course;
-    @NotBlank(message = "Duration field is required")
+    @Min(value = 1, message = "Duration field must be greater than 0")
     private int duration;
 
 
