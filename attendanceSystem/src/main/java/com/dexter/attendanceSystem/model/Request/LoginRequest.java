@@ -11,4 +11,8 @@ public class LoginRequest {
     private String studentId;
     @NotBlank(message = "Password field is required")
     private String password;
+    @NotBlank(message = "First Name is Required")
+    private String firstName;
+    @NotBlank(message = "Last Name is required")
+    private String lastName;
 }

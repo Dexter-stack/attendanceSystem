@@ -36,6 +36,11 @@ public class AppUser  implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @NotBlank(message = "First Name is Required")
+    private String firstName;
+    @NotBlank(message = "Last Name is required")
+    private String lastName;
+
 
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE,CascadeType.REMOVE})
     @JoinTable(

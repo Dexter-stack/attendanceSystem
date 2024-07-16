@@ -29,12 +29,12 @@ public class AuthenticationController {
     @PostMapping("/sign-up")
     public ResponseEntity<ApiResponse> signUp( @RequestBody @Valid SignupRequest signupRequest, HttpServletRequest httpServletRequest) {
         ApiResponse response = ApiResponse.builder()
-                .status(HttpStatus.OK.value())
+                .status(HttpStatus.CREATED.value())
                 .data(unauthenticatedService.saveUser(signupRequest))
                 .isSuccessful(true)
                 .path(httpServletRequest.getRequestURI())
                 .build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 

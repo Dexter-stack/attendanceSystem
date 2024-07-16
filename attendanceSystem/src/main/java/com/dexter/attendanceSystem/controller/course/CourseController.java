@@ -28,9 +28,9 @@ public class CourseController {
             .data(courseService.saveCourse(courseRequest))
             .path(httpServletRequest.getRequestURI())
             .isSuccessful(true)
-            .status(HttpStatus.OK.value())
+            .status(HttpStatus.CREATED.value())
             .build();
-    return new ResponseEntity<>(response,HttpStatus.OK);
+    return new ResponseEntity<>(response,HttpStatus.CREATED);
 
 
     }
@@ -79,11 +79,11 @@ public class CourseController {
 
         ApiResponse response = ApiResponse.builder()
                 .data(courseService.updateCourse(courseId,courseRequest))
-                .status(HttpStatus.OK.value())
+                .status(HttpStatus.CREATED.value())
                 .path(httpServletRequest.getRequestURI())
                 .isSuccessful(true)
                 .build();
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
 

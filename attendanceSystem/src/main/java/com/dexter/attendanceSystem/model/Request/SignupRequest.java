@@ -20,5 +20,10 @@ public class SignupRequest {
     @NotBlank(message = "Password is required")
     private String password;
 
+    @NotBlank(message = "First Name is Required")
+    private String firstName;
+    @NotBlank(message = "Last Name is required")
+    private String lastName;
+
 
 }

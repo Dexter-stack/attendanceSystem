@@ -25,7 +25,7 @@ public class WebSecurityConfig {
 
     private static  final String [] WHITE_LIST_URLS = {
 
-            "/api/sign-up",
+            "api/sign-up",
             "api/login"
     };
 

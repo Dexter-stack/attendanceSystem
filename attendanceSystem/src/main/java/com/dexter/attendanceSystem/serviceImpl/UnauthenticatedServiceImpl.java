@@ -39,11 +39,15 @@ public class UnauthenticatedServiceImpl implements UnathenticatedService {
 
         AppUser appUser = AppUser.builder()
                 .studentId(request.getStudentId())
+                .lastName(request.getLastName())
+                .firstName(request.getFirstName())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
         UserResponse response = UserResponse.builder()
                 .student_id(appUser.getStudentId())
+                .lastName(appUser.getLastName())
+                .firstName(appUser.getFirstName())
                 .role(Role.USER)
                 .build();
 
