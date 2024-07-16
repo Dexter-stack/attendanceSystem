@@ -6,15 +6,14 @@ import com.dexter.attendanceSystem.exception.StudentException;
 import com.dexter.attendanceSystem.model.Request.CourseRequest;
 import com.dexter.attendanceSystem.model.Response.CourseResponse;
 import com.dexter.attendanceSystem.model.Response.CoursesResponse;
-import com.dexter.attendanceSystem.model.Response.UserResponse;
 import com.dexter.attendanceSystem.repository.CourseRepository;
 import com.dexter.attendanceSystem.service.CourseService;
 import com.dexter.attendanceSystem.utils.Errors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,7 +69,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseResponse getCourseByCourseName(String course) {
 
 
-        Course courseData = courseRepository.findByCourse(course).orElseThrow( ()-> new CourseException(Errors.COURSE_DOES_NOT_EXIST));
+        Course courseData = courseRepository.findByCourse(course).orElseThrow(() -> new CourseException(Errors.COURSE_DOES_NOT_EXIST));
         return CourseResponse.builder()
                 .CourseId(courseData.getCourseId())
                 .course(courseData.getCourse())
@@ -79,7 +78,44 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
+    @Override
 
+    public CourseResponse getCourseById(Long courseId) {
+
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseException(Errors.COURSE_DOES_NOT_EXIST));
+        return CourseResponse.builder()
+                .CourseId(courseId)
+                .duration(course.getDuration())
+                .course(course.getCourse())
+                .build();
+
+    }
+
+    @Override
+    public CourseResponse updateCourse(Long courseId, CourseRequest courseRequest) {
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseException(Errors.COURSE_DOES_NOT_EXIST));
+        if (Objects.nonNull(courseRequest.getCourse()) && !"".equalsIgnoreCase(courseRequest.getCourse())) {
+            course.setCourse(courseRequest.getCourse());
+        }
+        if (Objects.nonNull(courseRequest.getDuration()) && !"".equalsIgnoreCase(String.valueOf(courseRequest.getDuration()))) {
+            course.setDuration(courseRequest.getDuration());
+        }
+        try {
+
+            courseRepository.save(course);
+
+        } catch (Exception exception) {
+            // log the error
+            throw new CourseException(Errors.ERROR_OCCUR_WHILE_PERFORMING);
+        }
+
+
+        return CourseResponse.builder()
+                .course(course.getCourse())
+                .duration(course.getDuration())
+                .CourseId(course.getCourseId())
+                .build();
+    }
 
 
 }

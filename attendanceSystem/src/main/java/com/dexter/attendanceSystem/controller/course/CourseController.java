@@ -50,7 +50,7 @@ public class CourseController {
 
     @GetMapping("/course")
 
-    public ResponseEntity<ApiResponse> FetchSingleCourseByCourseName(@RequestParam("course") String course, HttpServletRequest httpServletRequest){
+    public ResponseEntity<ApiResponse> fetchSingleCourseByCourseName(@RequestParam("course") String course, HttpServletRequest httpServletRequest){
 
         ApiResponse response =  ApiResponse.builder()
                 .data(courseService.getCourseByCourseName(course))
@@ -60,6 +60,30 @@ public class CourseController {
                 .build();
         return new ResponseEntity<>(response,HttpStatus.OK);
 
+    }
+
+    @GetMapping("/course/{id}")
+    public ResponseEntity<ApiResponse> fetchSingleCourseById(@PathVariable("id") Long courseId, HttpServletRequest httpServletRequest ){
+        ApiResponse response = ApiResponse.builder()
+                .data(courseService.getCourseById(courseId))
+                .status(HttpStatus.OK.value())
+                .path(httpServletRequest.getRequestURI())
+                .isSuccessful(true)
+                .build();
+        return  new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+
+    @PutMapping("/course/{id}")
+    public ResponseEntity<ApiResponse> updateCourse(@PathVariable("id") Long courseId, @RequestBody CourseRequest courseRequest, HttpServletRequest httpServletRequest){
+
+        ApiResponse response = ApiResponse.builder()
+                .data(courseService.updateCourse(courseId,courseRequest))
+                .status(HttpStatus.OK.value())
+                .path(httpServletRequest.getRequestURI())
+                .isSuccessful(true)
+                .build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 

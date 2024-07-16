@@ -10,4 +10,10 @@ public interface CourseService {
     public CourseResponse saveCourse(CourseRequest courseRequest);
     public CoursesResponse getAllCourses();
     public CourseResponse  getCourseByCourseName(String course);
+
+    CourseResponse getCourseById(Long courseId);
+
+
+
+    CourseResponse updateCourse(Long courseId, CourseRequest courseRequest);
 }
