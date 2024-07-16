@@ -11,7 +11,7 @@ public class CourseResponse {
 
     private String course;
 
-
+    private Long CourseId;
     private int duration;
 
 

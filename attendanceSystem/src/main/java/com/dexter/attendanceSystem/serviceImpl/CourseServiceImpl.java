@@ -5,11 +5,17 @@ import com.dexter.attendanceSystem.exception.CourseException;
 import com.dexter.attendanceSystem.exception.StudentException;
 import com.dexter.attendanceSystem.model.Request.CourseRequest;
 import com.dexter.attendanceSystem.model.Response.CourseResponse;
+import com.dexter.attendanceSystem.model.Response.CoursesResponse;
+import com.dexter.attendanceSystem.model.Response.UserResponse;
 import com.dexter.attendanceSystem.repository.CourseRepository;
 import com.dexter.attendanceSystem.service.CourseService;
 import com.dexter.attendanceSystem.utils.Errors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,4 +48,38 @@ public class CourseServiceImpl implements CourseService {
                 .duration(course.getDuration())
                 .build();
     }
+
+
+    @Override
+    public CoursesResponse getAllCourses() {
+        List<CourseResponse> courses = courseRepository.findAll().stream().map(
+                course -> CourseResponse.builder()
+                        .course(course.getCourse())
+                        .duration(course.getDuration())
+                        .CourseId(course.getCourseId())
+                        .build()
+        ).collect(Collectors.toList());
+
+        return CoursesResponse.builder()
+                .courses(courses)
+                .totalCourse((long) courses.size())
+                .build();
+    }
+
+    @Override
+    public CourseResponse getCourseByCourseName(String course) {
+
+
+        Course courseData = courseRepository.findByCourse(course).orElseThrow( ()-> new CourseException(Errors.COURSE_DOES_NOT_EXIST));
+        return CourseResponse.builder()
+                .CourseId(courseData.getCourseId())
+                .course(courseData.getCourse())
+                .duration(courseData.getDuration())
+                .build();
+
+    }
+
+
+
+
 }

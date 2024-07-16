@@ -4,6 +4,7 @@ public class Errors {
     public static final String USER_DOES_NOT_EXIST = "This user does not exist" ;
     public static final String INVALID_PASSWORD = "invalid password";
     public static final String COURSE_ALREADY_EXIST = "This course already exist";
+    public static final String COURSE_DOES_NOT_EXIST = "This course does not exist";
 
     private Errors(){
 
