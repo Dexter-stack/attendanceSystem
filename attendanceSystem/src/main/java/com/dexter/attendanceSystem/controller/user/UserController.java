@@ -1,12 +1,17 @@
 package com.dexter.attendanceSystem.controller.user;
 
 
+import com.dexter.attendanceSystem.entity.AppUser;
 import com.dexter.attendanceSystem.service.UserService;
 import com.dexter.attendanceSystem.utils.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
 
     @GetMapping("/user")
@@ -53,5 +59,10 @@ public class UserController {
                 .isSuccessful(true)
                 .build();
         return  new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PostMapping("/currentUser")
+    public String getCurrenuser(@AuthenticationPrincipal AppUser userDetails){
+      return userDetails.getUsername();
     }
 }

@@ -79,7 +79,11 @@ public class UnauthenticatedServiceImpl implements UnathenticatedService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             var userObject = userRepository.findByStudentId(loginRequest.getStudentId());
             AppUser appUser = userObject.orElseGet(() -> new AppUser());
-            UserResponse userResponse =  UserResponse.builder().student_id(appUser.getStudentId()).role(appUser.getRole()).build();
+            UserResponse userResponse =  UserResponse.builder().student_id(appUser.getStudentId()).role(appUser.getRole())
+                    .firstName(appUser.getFirstName())
+                    .lastName(appUser.getLastName())
+
+                    .build();
             return LoginResponse.builder()
                     .userResponse(userResponse)
                     .token(jwtService.generateToken(appUser))

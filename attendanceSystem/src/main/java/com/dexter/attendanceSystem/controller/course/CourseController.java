@@ -86,6 +86,20 @@ public class CourseController {
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
+    @PostMapping("/course/student/{id}")
+    public ResponseEntity<ApiResponse> saveStudentCourse(@PathVariable("id") Long courseId, HttpServletRequest httpServletRequest){
+        ApiResponse response = ApiResponse.builder()
+                .data(courseService.saveStudentCourse(courseId))
+                .status(HttpStatus.CREATED.value())
+                .path(httpServletRequest.getRequestURI())
+                .isSuccessful(true)
+                .build();
+        return  new ResponseEntity<>(response,HttpStatus.CREATED);
+    }
+
+
+
+
 
 
 }

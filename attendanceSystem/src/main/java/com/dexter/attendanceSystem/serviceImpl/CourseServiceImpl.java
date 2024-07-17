@@ -1,15 +1,20 @@
 package com.dexter.attendanceSystem.serviceImpl;
 
+import com.dexter.attendanceSystem.audit.AppAuditAware;
+import com.dexter.attendanceSystem.entity.AppUser;
 import com.dexter.attendanceSystem.entity.Course;
+import com.dexter.attendanceSystem.entity.StudentCourse;
 import com.dexter.attendanceSystem.exception.CourseException;
 import com.dexter.attendanceSystem.exception.StudentException;
 import com.dexter.attendanceSystem.model.Request.CourseRequest;
 import com.dexter.attendanceSystem.model.Response.CourseResponse;
 import com.dexter.attendanceSystem.model.Response.CoursesResponse;
 import com.dexter.attendanceSystem.repository.CourseRepository;
+import com.dexter.attendanceSystem.repository.StudentCourseRepository;
 import com.dexter.attendanceSystem.service.CourseService;
 import com.dexter.attendanceSystem.utils.Errors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +26,8 @@ import java.util.stream.Collectors;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
+    private final StudentCourseRepository studentCourseRepository;
+    private final AppAuditAware auditAware;
 
     @Override
     public CourseResponse saveCourse(CourseRequest courseRequest) {
@@ -89,6 +96,28 @@ public class CourseServiceImpl implements CourseService {
                 .course(course.getCourse())
                 .build();
 
+    }
+
+    @Override
+    public CourseResponse saveStudentCourse(Long courseId) throws CourseException{
+        AppUser user= auditAware.getCurrentUserAuditor().orElseThrow(() -> new CourseException(Errors.UNAUTHORIZED));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseException(Errors.COURSE_DOES_NOT_EXIST));
+        try {
+            StudentCourse studentCourse = StudentCourse.builder()
+                    .appUser(user)
+                    .course(course)
+                    .build();
+            studentCourseRepository.save(studentCourse);
+
+        }catch (Exception exception){
+            // log error
+            throw new CourseException(Errors.ERROR_OCCUR_WHILE_PERFORMING);
+        }
+
+        return CourseResponse.builder()
+                .CourseId(course.getCourseId())
+                .duration(course.getDuration())
+                .build();
     }
 
     @Override

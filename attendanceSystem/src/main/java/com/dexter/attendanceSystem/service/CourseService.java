@@ -13,6 +13,8 @@ public interface CourseService {
 
     CourseResponse getCourseById(Long courseId);
 
+    CourseResponse saveStudentCourse(Long courseId);
+
 
 
     CourseResponse updateCourse(Long courseId, CourseRequest courseRequest);

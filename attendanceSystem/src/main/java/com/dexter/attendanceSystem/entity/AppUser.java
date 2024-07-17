@@ -16,17 +16,14 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppUser  implements UserDetails {
+public class AppUser implements UserDetails {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-
-    @Column(length = 5,nullable = false)
-    @NotBlank(message = "Registration  field is required")
+    @Column(length = 5, nullable = false)
+    @NotBlank(message = "Registration field is required")
     private String studentId;
 
     @Column(length = 100)
@@ -38,26 +35,13 @@ public class AppUser  implements UserDetails {
 
     @NotBlank(message = "First Name is Required")
     private String firstName;
+
     @NotBlank(message = "Last Name is required")
     private String lastName;
 
+    @OneToMany(mappedBy = "appUser", fetch = FetchType.EAGER)
 
-    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE,CascadeType.REMOVE})
-    @JoinTable(
-            name = "student_courses",
-            joinColumns = @JoinColumn(name = "student_id",
-                    referencedColumnName = "Id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "course_id",
-                    referencedColumnName = "CourseId"
-            )
-
-
-    )
-
-    private List<Course> courses;
-
+    private List<StudentCourse> studentCourses;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -66,7 +50,7 @@ public class AppUser  implements UserDetails {
 
     @Override
     public String getUsername() {
-        return  studentId;
+        return studentId;
     }
 
     @Override
@@ -80,7 +64,12 @@ public class AppUser  implements UserDetails {
     }
 
     @Override
-    public boolean isCredentialsNonExpired(){
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
         return true;
     }
 }

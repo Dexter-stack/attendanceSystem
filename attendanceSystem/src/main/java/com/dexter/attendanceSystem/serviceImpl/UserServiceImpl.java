@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
                 .firstName(user.getFirstName())
                 .Id(user.getId())
                 .role(user.getRole())
+
                 .build();
     }
 

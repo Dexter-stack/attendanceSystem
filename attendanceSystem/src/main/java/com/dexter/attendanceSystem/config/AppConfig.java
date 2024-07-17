@@ -1,5 +1,6 @@
 package com.dexter.attendanceSystem.config;
 
+import com.dexter.attendanceSystem.audit.AppAuditAware;
 import com.dexter.attendanceSystem.exception.StudentException;
 import com.dexter.attendanceSystem.repository.UserRepository;
 import com.dexter.attendanceSystem.service.UserService;
@@ -7,6 +8,7 @@ import com.dexter.attendanceSystem.utils.Errors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -48,6 +50,15 @@ public class AppConfig {
     public AuthenticationManager authenticationManager (AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
+    @Bean
+    public AppAuditAware auditorAware(){
+        return new AppAuditAware();
+    }
+
+
+
+
 
 
 
