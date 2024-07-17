@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
                 .Id(user.getId())
                 .role(user.getRole())
 
+
                 .build();
     }
 

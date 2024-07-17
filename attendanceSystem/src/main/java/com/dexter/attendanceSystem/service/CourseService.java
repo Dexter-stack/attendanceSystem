@@ -3,6 +3,7 @@ package com.dexter.attendanceSystem.service;
 import com.dexter.attendanceSystem.model.Request.CourseRequest;
 import com.dexter.attendanceSystem.model.Response.CourseResponse;
 import com.dexter.attendanceSystem.model.Response.CoursesResponse;
+import com.dexter.attendanceSystem.model.Response.StudentCoursesResponse;
 
 
 public interface CourseService {
@@ -14,6 +15,8 @@ public interface CourseService {
     CourseResponse getCourseById(Long courseId);
 
     CourseResponse saveStudentCourse(Long courseId);
+
+    StudentCoursesResponse fetchUserCourses();
 
 
 

@@ -97,6 +97,18 @@ public class CourseController {
         return  new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
+    @GetMapping("/student/courses")
+
+    public ResponseEntity<ApiResponse> fetchStudentCourses(HttpServletRequest httpServletRequest){
+        ApiResponse response =  ApiResponse.builder()
+                .data(courseService.fetchUserCourses())
+                .isSuccessful(true)
+                .path(httpServletRequest.getRequestURI())
+                .status(HttpStatus.OK.value())
+                .build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
 
 
 

@@ -9,6 +9,8 @@ import com.dexter.attendanceSystem.exception.StudentException;
 import com.dexter.attendanceSystem.model.Request.CourseRequest;
 import com.dexter.attendanceSystem.model.Response.CourseResponse;
 import com.dexter.attendanceSystem.model.Response.CoursesResponse;
+import com.dexter.attendanceSystem.model.Response.StudentCourseResponse;
+import com.dexter.attendanceSystem.model.Response.StudentCoursesResponse;
 import com.dexter.attendanceSystem.repository.CourseRepository;
 import com.dexter.attendanceSystem.repository.StudentCourseRepository;
 import com.dexter.attendanceSystem.service.CourseService;
@@ -119,6 +121,34 @@ public class CourseServiceImpl implements CourseService {
                 .duration(course.getDuration())
                 .build();
     }
+
+    @Override
+    public StudentCoursesResponse fetchUserCourses() {
+
+        AppUser user = auditAware.getCurrentUserAuditor().orElseThrow(()->new CourseException(Errors.UNAUTHORIZED));
+
+
+            List<StudentCourseResponse> studentCourses = user.getStudentCourses().stream()
+                    .map(this::mapToStudentCourseResponse)
+                    .collect(Collectors.toList());
+
+
+        return StudentCoursesResponse.builder()
+                .studentCourseResponses(studentCourses)
+                .totalCourses((long) studentCourses.size())
+                .build();
+    }
+
+    private StudentCourseResponse mapToStudentCourseResponse(StudentCourse studentCourse) {
+        return StudentCourseResponse.builder()
+                .courseId(studentCourse.getCourse().getCourseId())
+                .courseName(studentCourse.getCourse().getCourse())
+                .duration(studentCourse.getCourse().getDuration())
+                .build();
+    }
+
+
+
 
     @Override
     public CourseResponse updateCourse(Long courseId, CourseRequest courseRequest) {
