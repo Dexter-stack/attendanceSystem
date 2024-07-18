@@ -8,6 +8,7 @@ public class Errors {
     public static final String COURSE_ALREADY_EXIST = "This course already exist";
     public static final String COURSE_DOES_NOT_EXIST = "This course does not exist";
     public static final String UNAUTHORIZED = "Not authorized to perform this action" ;
+    public static final String STUDENT_NEEDS_TO_CLOCKIN = "Student needs to clock in";
 
     private Errors(){
 
