@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.dexter.attendanceSystem.utils.Role.ADMIN;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -29,6 +30,16 @@ public class WebSecurityConfig {
             "api/login"
     };
 
+    private static  final String [] ADMIN_ENDPOINTS ={
+
+            "/api/attendance/attendances",
+            "/api/users",
+            "/api/user/firstName"
+
+
+
+    };
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -39,6 +50,7 @@ public class WebSecurityConfig {
                             try {
                                 authorize
                                         .requestMatchers(WHITE_LIST_URLS).permitAll()
+                                        .requestMatchers(ADMIN_ENDPOINTS).hasAnyRole(ADMIN.name())
                                         .anyRequest().authenticated()
                                         .and()
                                         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

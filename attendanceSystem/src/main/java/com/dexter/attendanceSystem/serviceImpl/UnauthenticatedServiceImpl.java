@@ -42,7 +42,7 @@ public class UnauthenticatedServiceImpl implements UnathenticatedService {
                 .lastName(request.getLastName())
                 .firstName(request.getFirstName())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
         UserResponse response = UserResponse.builder()
                 .student_id(appUser.getStudentId())
@@ -91,7 +91,7 @@ public class UnauthenticatedServiceImpl implements UnathenticatedService {
 
         } catch (Exception exception) {
             // log the error
-            throw new StudentException(Errors.ERROR_OCCUR_WHILE_PERFORMING );
+            throw new StudentException(Errors.ERROR_OCCUR_WHILE_PERFORMING +exception.getMessage() );
         }
 
     }

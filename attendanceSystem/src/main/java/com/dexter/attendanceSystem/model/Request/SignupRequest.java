@@ -25,5 +25,7 @@ public class SignupRequest {
     @NotBlank(message = "Last Name is required")
     private String lastName;
 
+    private Role role;
+
 
 }
