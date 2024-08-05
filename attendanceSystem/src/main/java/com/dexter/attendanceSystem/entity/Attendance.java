@@ -1,5 +1,6 @@
 package com.dexter.attendanceSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,11 +29,14 @@ public class Attendance {
     private Date signOutTime;
 
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER)
+
     @JoinColumn(
             name = "user_id",
             referencedColumnName = "Id"
     )
+    @JsonIgnore
     private AppUser user;
 
 

@@ -1,6 +1,7 @@
 package com.dexter.attendanceSystem.model.Response;
 
 
+import com.dexter.attendanceSystem.entity.AppUser;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,4 +18,5 @@ public class AttendanceResponse {
     private String userId;
     private Date clockInTime;
     private Date clockOutTime;
+    private UserResponse userResponse;
 }

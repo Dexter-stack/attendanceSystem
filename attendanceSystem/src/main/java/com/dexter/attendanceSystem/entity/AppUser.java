@@ -43,6 +43,11 @@ public class AppUser implements UserDetails {
 
     private List<StudentCourse> studentCourses;
 
+
+
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

@@ -43,4 +43,16 @@ public class AttendanceController {
         return  new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
+    @GetMapping("/attendances")
+    public ResponseEntity<ApiResponse> fetchAttendance(@RequestParam("days") int daysAgo, HttpServletRequest httpServletRequest){
+        ApiResponse response =  ApiResponse.builder()
+                .path(httpServletRequest.getRequestURI())
+                .status(HttpStatus.OK.value())
+                .data(attendanceService.fetchAttendanceByDate(daysAgo))
+                .isSuccessful(true)
+                .build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
+
+    }
+
 }
